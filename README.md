@@ -1,35 +1,105 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# AI Finder
 
-## Getting Started
+AI Finder is a platform designed to help users find people based on personalized queries, leveraging AI to parse natural-language inputs and rank results based on similarity to user preferences. The platform integrates Pinecone for vector search and Supabase for data storage, enabling users to find people based on interests, professions, and additional filters.
 
-First, run the development server:
+## Thought Process
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+The idea behind this project is to enable users to perform natural-language searches to find people based on attributes like profession, interests, and personality traits. The system leverages OpenAI's GPT model to extract key search intents from user input, which are then transformed into filters for searching through user data stored in Supabase. The results are returned with relevant personas ranked by similarity, and an explanation of the match is provided by the AI, improving the overall search experience.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Core Features:
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+- **Natural-language search**: Allows users to input freeform queries like “Find me artists who love hiking and talk like Tarantino.”
+- **AI parsing**: GPT-4 parses the query, extracting key filters and generating a vector embedding to perform the search.
+- **Search results ranked by persona match**: The results are sorted based on how closely they match the user query.
+- **AI-generated explanations**: AI provides a short explanation of why each result is a good match (e.g., “Both love absurd humor and slow cinema”).
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+### Tech Stack:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+- **Frontend**: Next.js for the application framework.
+- **Backend**: Next.js API routes for serverless endpoints.
+- **Database**: Supabase for storing user data in the `users` table.
+- **Search engine**: Pinecone for vector-based search.
+- **AI/ML**: OpenAI GPT-4 for extracting filters and generating embeddings.
 
-## Learn More
+### Key Technologies:
 
-To learn more about Next.js, take a look at the following resources:
+- **Supabase**: A fully managed Postgres database with real-time features.
+- **Pinecone**: A vector search engine used to store and search embeddings.
+- **OpenAI GPT-4**: Used to parse user input and generate embeddings for semantic search.
+- **Next.js**: A React framework for building the application and API routes.
+- **TypeScript**: For type safety and better code maintainability.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Setup Instructions
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Prerequisites:
 
-## Deploy on Vercel
+1. **Node.js** (v16 or higher) - [Download here](https://nodejs.org/)
+2. **Supabase account** (for the database)
+   - [Sign up here](https://supabase.io/)
+3. **Pinecone account** (for vector search)
+   - [Sign up here](https://www.pinecone.io/)
+4. **OpenAI API key**
+   - [Get API key here](https://platform.openai.com/)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Steps to Set Up:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-"# ai-finder-frontend" 
+1. **Clone the Repository**:
+
+   ```bash
+   git clone https://github.com/Anupamti/ai-finder-frontend.git
+   cd ai-finder-frontend.
+
+   ```
+
+2. **Install Dependencies**:
+
+   ```bash
+   npm install
+   # or
+   yarn install
+
+   ```
+
+3. **Set Up Environment Variables**:
+
+   ```bash
+   (In .env Add the keys below)
+
+   SUPABASE_URL=your_supabase_url
+   SUPABASE_KEY=your_supabase_key
+   PINECONE_API_KEY=your_pinecone_api_key
+   OPENAI_API_KEY=your_openai_api_key
+   ```
+
+4. **Set Up Supabase**:
+
+   ```bash
+   create a table called users with the following columns
+
+   id (UUID)
+
+   name (Text)
+
+   bio (Text)
+
+   profession (Text)
+
+   interests (Array of Text)
+
+   embedding (Vector Embedding from Pinecone)(Optional)
+
+   ```
+
+5. **Set Up Pinecone**:
+
+   - Sign into your Pinecone account and create an index for storing vector embeddings.
+   - Use the `text-embedding-3-small model` from OpenAI to generate embeddings for the bios and interests of users in the users table.
+
+6. **Run the Application**:
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+
+
+   ```
